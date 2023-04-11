@@ -13,11 +13,6 @@ provider "azurerm" {
   features {}
 }
 
-# Create container registry
-resource "azurerm_container_registry" "registry" {
-  
-}
-
 # Create AKS cluster
 resource "azurerm_kubernetes_cluster" "jobboardsaks" {
   name                = "job-boards-aks"
@@ -27,7 +22,7 @@ resource "azurerm_kubernetes_cluster" "jobboardsaks" {
   default_node_pool {
     name       = "default"
     node_count = 1
-    vm_size    = "Standard_D2_v2"
+    vm_size    = "Standard_B2s"
   }
 
   identity {
