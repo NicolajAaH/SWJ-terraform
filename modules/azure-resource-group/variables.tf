@@ -4,6 +4,6 @@ variable "resource_group_location" {
 }
 
 variable "resource_group_name" {
-  default = "job-boards-rg"
+  default = "test-rg"
   description = "The name of the resource group."
 }

@@ -1,11 +1,10 @@
 terraform {
-    required_version = ">= 0.13"
-    required_providers {
-        azurerm = {
-        source  = "hashicorp/azurerm"
-        version = ">= 2.0"
-        }
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=3.0.0"
     }
+  }
 }
 
 # Define provider
@@ -18,28 +17,47 @@ module "azure-resource-group" {
   resource_group_location = var.resource_group_location
 }
 
-module "azure-kubernetes-service" {
-  source = "./modules/azure-kubernetes-service"
+module "azure-vnet" {
+  source = "./modules/azure-vnet"
+  depends_on = [module.azure-resource-group]
   resource_group_name = module.azure-resource-group.resource_group_name
   resource_group_location = var.resource_group_location
+  vnet_name = "test-vnet"
+}
+
+module "azure-subnet" {
+  source = "./modules/azure-subnet"
+  depends_on = [module.azure-vnet]
+  resource_group_name = module.azure-resource-group.resource_group_name
+  resource_group_location = var.resource_group_location
+  vnet_name = module.azure-vnet.vnet_name
+}
+
+module "azure-kubernetes-service" {
+  source = "./modules/azure-kubernetes-service"
+  depends_on = [module.azure-subnet]
+  resource_group_name = module.azure-resource-group.resource_group_name
+  resource_group_location = var.resource_group_location
+  subnet_id                 = module.azure-subnet.subnet_id
 }
 
 module "azure-service-bus" {
   source = "./modules/azure-service-bus"
+  depends_on = [module.azure-subnet]
 
   resource_group_name     = var.resource_group_name
   resource_group_location = var.resource_group_location
-  service_bus_name        = "job-boards-service-bus"
-  service_bus_sku         = "Standard"
+  service_bus_name        = "test-job-service-bus"
+  service_bus_sku         = "Premium"
   queue_name              = "NEW_JOB"
+  subnet_id                 = module.azure-subnet.subnet_id
 }
 
 module "azure-function" {
   source = "./modules/azure-function"
+  depends_on = [module.azure-subnet]
 
   resource_group_name     = var.resource_group_name
   resource_group_location = var.resource_group_location
-  function_name           = "job-boards-notification-function"
-  service_bus_connection  = module.azure-service-bus.service_bus_connection
-  service_bus_queue_name  = module.azure-service-bus.queue_name
+  function_name           = "test-function-job"
 }

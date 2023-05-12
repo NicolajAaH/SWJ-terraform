@@ -7,3 +7,7 @@ variable "resource_group_name" {
   default = "test-rg"
   description = "The name of the resource group."
 }
+
+variable "vnet_name" {
+  description = "The name of the Azure VNet."
+}
