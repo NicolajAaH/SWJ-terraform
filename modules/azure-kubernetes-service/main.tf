@@ -9,10 +9,10 @@ terraform {
 
 # Create AKS cluster
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                = "test-aks"
+  name                = "jobboards-aks"
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
-  dns_prefix          = "testsaks"
+  dns_prefix          = "jobboardsaks"
   auto_scaler_profile {
     scale_down_utilization_threshold = 0.8
   }
@@ -28,7 +28,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   tags = {
-    Environment = "Development"
+    Environment = var.environment
   }
 }
 

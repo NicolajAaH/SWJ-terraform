@@ -8,7 +8,7 @@ terraform {
 }
 
 resource "azurerm_storage_account" "storage-function" {
-  name                     = "functiontestjob"
+  name                     = "jobboardstorage"
   resource_group_name      = var.resource_group_name
   location                 = var.resource_group_location
   account_tier             = "Standard"
@@ -16,7 +16,7 @@ resource "azurerm_storage_account" "storage-function" {
 }
 
 resource "azurerm_service_plan" "service-plan" {
-  name                = "service-plan"
+  name                = "service-plan-job"
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   os_type = "Linux"

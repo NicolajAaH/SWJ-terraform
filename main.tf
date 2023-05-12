@@ -22,7 +22,7 @@ module "azure-vnet" {
   depends_on = [module.azure-resource-group]
   resource_group_name = module.azure-resource-group.resource_group_name
   resource_group_location = var.resource_group_location
-  vnet_name = "test-vnet"
+  vnet_name = "jobboards-vnet"
 }
 
 module "azure-subnet" {
@@ -47,7 +47,7 @@ module "azure-service-bus" {
 
   resource_group_name     = var.resource_group_name
   resource_group_location = var.resource_group_location
-  service_bus_name        = "test-job-service-bus"
+  service_bus_name        = "jobboards-service-bus"
   service_bus_sku         = "Premium"
   queue_name              = "NEW_JOB"
   subnet_id                 = module.azure-subnet.subnet_id
@@ -59,5 +59,22 @@ module "azure-function" {
 
   resource_group_name     = var.resource_group_name
   resource_group_location = var.resource_group_location
-  function_name           = "test-function-job"
+  function_name           = "notification-jobboards"
+}
+
+module "azure-postgres" {
+  source = "./modules/azure-postgres"
+  depends_on = [module.azure-subnet]
+
+  resource_group_name     = var.resource_group_name
+  resource_group_location = var.resource_group_location
+  subnet_id               = module.azure-subnet.subnet_id
+
+}
+
+module "azure-cosmos-mongodb" {
+  source = "./modules/azure-cosmos-mongodb"
+  depends_on = [module.azure-subnet]
+  resource_group_name     = var.resource_group_name
+  resource_group_location = var.resource_group_location
 }

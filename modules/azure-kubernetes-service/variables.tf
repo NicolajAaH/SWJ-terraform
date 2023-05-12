@@ -11,3 +11,8 @@ variable "resource_group_name" {
 variable "subnet_id" {
   description = "The ID of the subnet."
 }
+
+variable "environment" {
+  default = "Development"
+  description = "The environment name."
+}
