@@ -17,9 +17,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
     scale_down_utilization_threshold = 0.8
   }
   default_node_pool {
-    name       = "default"
-    node_count = 1
-    vm_size    = "Standard_B2s"
+    name           = "default"
+    node_count     = 1
+    vm_size        = "Standard_B2s"
     vnet_subnet_id = var.subnet_id
   }
 
@@ -39,6 +39,6 @@ output "client_certificate" {
 }
 
 output "kube_config" {
-  value = azurerm_kubernetes_cluster.aks.kube_config_raw
+  value     = azurerm_kubernetes_cluster.aks.kube_config_raw
   sensitive = true
 }

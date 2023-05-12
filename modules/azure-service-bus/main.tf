@@ -12,7 +12,7 @@ resource "azurerm_servicebus_namespace" "service_bus" {
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   sku                 = var.service_bus_sku
-  
+
 }
 
 resource "azurerm_servicebus_namespace_network_rule_set" "service_bus_network_rule_set" {

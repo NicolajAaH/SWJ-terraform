@@ -1,11 +1,11 @@
 variable "resource_group_name" {
   type        = string
-  default = "jobboards-rg"
+  default     = "jobboards-rg"
   description = "The name of the resource group."
 }
 
 variable "resource_group_location" {
   type        = string
-  default = "westeurope"
+  default     = "westeurope"
   description = "The location of the resource group."
 }
