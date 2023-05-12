@@ -1,5 +1,10 @@
-provider "azurerm" {
-  features {}
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=3.0.0"
+    }
+  }
 }
 
 resource "azurerm_servicebus_namespace" "service_bus" {
@@ -7,7 +12,16 @@ resource "azurerm_servicebus_namespace" "service_bus" {
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   sku                 = var.service_bus_sku
-  
+
+}
+
+resource "azurerm_servicebus_namespace_network_rule_set" "service_bus_network_rule_set" {
+  namespace_id = azurerm_servicebus_namespace.service_bus.id
+
+  network_rules {
+    subnet_id                            = var.subnet_id
+    ignore_missing_vnet_service_endpoint = false
+  }
 }
 
 
@@ -16,10 +30,6 @@ resource "azurerm_servicebus_topic" "service_bus_topic" {
   namespace_id = azurerm_servicebus_namespace.service_bus.id
 
   enable_partitioning = true
-}
-
-output "service_bus_connection" {
-  value = azurerm_servicebus_namespace.service_bus.default_primary_connection_string
 }
 
 output "queue_name" {

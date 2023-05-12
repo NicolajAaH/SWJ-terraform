@@ -1,20 +1,14 @@
 terraform {
-    required_version = ">= 0.13"
-    required_providers {
-        azurerm = {
-        source  = "hashicorp/azurerm"
-        version = ">= 2.0"
-        }
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=3.0.0"
     }
-}
-
-# Define provider
-provider "azurerm" {
-  features {}
+  }
 }
 
 # Create resource group
 resource "azurerm_resource_group" "rg" {
-  name     = "job-boards-rg"
+  name     = var.resource_group_name
   location = var.resource_group_location
 }
