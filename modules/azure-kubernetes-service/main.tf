@@ -9,7 +9,7 @@ terraform {
 
 # Create AKS cluster
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                = "jobboards-aks"
+  name                = var.name
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   dns_prefix          = "jobboardsaks"

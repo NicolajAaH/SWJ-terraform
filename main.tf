@@ -36,6 +36,7 @@ module "azure-subnet" {
 module "azure-kubernetes-service" {
   source                  = "./modules/azure-kubernetes-service"
   depends_on              = [module.azure-subnet]
+  name                    = "job-boards-aks"
   resource_group_name     = module.azure-resource-group.resource_group_name
   resource_group_location = var.resource_group_location
   subnet_id               = module.azure-subnet.subnet_id
