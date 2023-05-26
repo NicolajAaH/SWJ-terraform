@@ -16,3 +16,8 @@ variable "environment" {
   default     = "Development"
   description = "The environment name."
 }
+
+variable "name" {
+  default     = "job-boards-aks"
+  description = "The name of the AKS cluster."
+}
